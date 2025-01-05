@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #E3F2FD, #FCE4EC); /* Light Blue to Pink Gradient */
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+    /* General Styling for Container */
+    .container {
+        margin-top: 50px;
+    }
+
+    /* Styling for the Transaction List */
+    .transaction-card {
+        background-color: #F1F8E9; /* Light Green */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    /* Hover effect on transaction cards */
+    .transaction-card:hover {
+        transform: scale(1.05);
+    }
+
+    /* Transaction Text Styling */
+    .transaction-text {
+        color: #333;
+        font-size: 18px;
+    }
+
+    /* Highlight the 'Mark as Lost' Button */
+    .mark-lost-btn {
+        background-color: #FF5722; /* Red-Orange */
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 10px;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Change color on hover for 'Mark as Lost' Button */
+    .mark-lost-btn:hover {
+        background-color: #D32F2F; /* Darker Red */
+    }
+
+    /* Title Style */
+    .page-title {
+        color: #2196F3; /* Blue */
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    /* Member and Book Information Styling */
+    .member-info {
+        font-weight: bold;
+    }
+
+    /* Status Styling */
+    .status {
+        font-style: italic;
+        color: #757575; /* Gray */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .col-sm-3, .col-sm-6 {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-6">
+            <h2 class="page-title">Transaction List</h2>
+
+            {% for transaction in transactions %}
+                <div class="transaction-card">
+                    <p class="transaction-text">
+                        <span class="member-info">{{ transaction.member.name }}</span> borrowed 
+                        <span class="member-info">{{ transaction.book.title }}</span> 
+                        - <span class="status">Status: {{ transaction.status }}</span>
+                    </p>
+                    
+                    {% if transaction.status == 'Issued' %}
+                        <a href="{% url 'mark_as_lost' transaction.id %}" class="mark-lost-btn">Mark as Lost</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

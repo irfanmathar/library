@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #E3F2FD, #FCE4EC); /* Light Blue to Pink Gradient */
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+    /* General Styling for Container */
+    .container {
+        margin-top: 40px;
+    }
+
+    /* Title Styling */
+    h3 {
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        color: #2E7D32; /* Dark Green */
+        margin-bottom: 10px;
+    }
+
+    /* Book Information Styling */
+    p {
+        font-size: 16px;
+        color: #424242; /* Dark Gray */
+        margin-bottom: 15px;
+    }
+
+    /* Featured Book Styling */
+    .featured {
+        color: green;
+        font-weight: bold;
+    }
+
+    /* Styling the Book Div Containers */
+    .book-container {
+        background-color: #F1F8E9; /* Light Green */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* Hover effect on Book Containers */
+    .book-container:hover {
+        transform: scale(1.02);
+    }
+
+    /* Button Styling */
+    .feature-btn {
+        background-color: #FF9800; /* Orange */
+        color: white;
+        padding: 8px 12px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .feature-btn:hover {
+        background-color: #FF5722; /* Darker Orange */
+    }
+
+    /* Responsive Design for Mobile Devices */
+    @media (max-width: 768px) {
+        .col-sm-3, .col-sm-6 {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <!-- Book List Section -->
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            {% for book in books %}
+                <div class="book-container">
+                    <h3>{{ book.title }} by {{ book.author }}</h3>
+                    <p>Genre: {{ book.genre }} | Available Copies: {{ book.available_copies }} | Rating: {{ book.rating }}</p>
+                    <p>
+                        {% if book.is_featured %}
+                            <span class="featured">Featured</span>
+                        {% else %}
+                            <a href="{% url 'toggle_featured' book.id %}" class="feature-btn">Mark as Featured</a>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
