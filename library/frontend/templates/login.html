@@ -1,0 +1,105 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block content %}
+<style>
+    /* Background Styling */
+    body {
+        background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+        color: white;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Centering the form */
+    #form {
+        max-width: 400px;
+        margin: 50px auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        color: black;
+    }
+
+    /* Labels */
+    label {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    /* Input Fields */
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    /* Error Message */
+    .text_danger {
+        color: red;
+        font-size: 12px;
+        margin-top: -8px;
+        margin-bottom: 8px;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background-color: #6a11cb;
+        border: none;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #2575fc;
+    }
+
+    /* Signup link */
+    .text-success {
+        color: #28a745;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+    .text-success:hover {
+        color: #155724;
+        text-decoration: underline;
+    }
+
+    /* Centered content */
+    center {
+        display: block;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    
+    <form action=" " method="POST" id="form">
+        <center><img src={%static 'assests/images/lib12.jpg'%}></center>
+        {% csrf_token %}
+        <label>Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Enter a Username" required>
+        <p class="text_danger">{{ error }}</p>
+
+        <label>Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Enter a Password" required>
+
+        <center>
+            <input type="submit" class="btn btn-primary" value="Login">
+            <br>
+            <a href="/signup/" class="text-success">If you are a new user, please signup</a>
+        </center>
+    </form>
+</div>
+{% endblock %}

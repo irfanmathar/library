@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #E3F2FD, #FCE4EC); /* Light Blue to Pink Gradient */
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+    
+.container-fluid {
+    margin-top: 10px;
+}
+
+/* Header Style */
+h2 {
+    color: #4CAF50;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Overdue Transactions Section */
+.overdue-section {
+    background-color: #FFEBEE;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.overdue-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.overdue-section li {
+    margin: 10px 0;
+    color: #E57373;
+}
+
+.overdue-section p {
+    font-style: italic;
+    color: #BDBDBD;
+}
+
+/* Table Styles */
+.table-striped th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.table-striped td {
+    color: #4CAF50;
+}
+
+/* Staff Logs Section */
+.staff-logs-section {
+    background-color: #E8F5E9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.staff-logs-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.staff-logs-section li {
+    margin: 10px 0;
+    color: #66BB6A;
+}
+
+/* Genre Popularity Chart Section */
+.genre-chart-section {
+    background-color: #FFF9C4;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Column Layout */
+@media (max-width: 768px) {
+    .col-sm-3, .col-sm-4 {
+        margin-bottom: 30px;
+    }
+}
+</style>
+<div class="body">
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2 overdue-section">
+        <h2>Overdue Transactions</h2>
+{% if overdue_transactions %}
+    <ul>
+        {% for transaction in overdue_transactions %}
+            <li>{{ transaction.book.title }} - {{ transaction.member.name }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No overdue transactions.</p>
+{% endif %}
+
+
+    </div>
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-3">
+    <h2>Top Members Report</h2>
+    <table class="table table_striped">
+        <tr>
+            <th>Member</th>
+            <th>Total_Books</th>
+        </tr>
+        {% for member in top_members %}
+        <tr>
+            <td>{{ member.name }}</td>
+            <td>{{ member.total_books }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-2 genre-chart-section">
+    <h2>Genre Popularity</h2>
+    <canvas id="genreChart"></canvas>
+    <script>
+        var ctx = document.getElementById('genreChart').getContext('2d');
+        var genreChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: {{ genre_labels|safe }},
+                datasets: [{
+                    label: 'Books by Genre',
+                    data: {{ genre_data|safe }},
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50']
+                }]
+            }
+        });
+    </script>
+    </div>
+    <br>
+    <div class="col-sm-1">
+    </div>
+    
+    <div class="col-sm-2 staff-logs-section">
+        
+        
+        <h2>Staff Logs</h2>
+        {% if staff_logs %}
+            <ul>
+                {% for staff in staff_logs %}
+                    <li>{{ staff.name }} - {{ staff.role }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No staff logs available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
